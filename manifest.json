@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Show Transcript",
+  "version": "1.0",
+  "description": "Automatically displays transcripts on YouTube videos and allows copying without timestamps",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "permissions": [
+    "clipboardWrite"
+  ]
+}

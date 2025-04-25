@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Show Transcript Extension Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    h1, h2 {
+      color: #065fd4;
+    }
+    
+    .steps {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .step {
+      margin-bottom: 15px;
+    }
+    
+    code {
+      background-color: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    
+    .youtube-link {
+      display: block;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #ff0000;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+    
+    .youtube-link:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Show Transcript Extension Test</h1>
+  
+  <div class="steps">
+    <h2>How to Test Your Extension</h2>
+    
+    <div class="step">
+      <h3>Step 1: Install the Extension</h3>
+      <p>Make sure you've loaded the extension in developer mode:</p>
+      <ol>
+        <li>Open Chrome and go to <code>chrome://extensions/</code></li>
+        <li>Enable "Developer mode" in the top-right corner</li>
+        <li>Click "Load unpacked" and select this folder</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <h3>Step 2: Create the Extension Icons</h3>
+      <p>Before testing on the Chrome Web Store, you'll need icons:</p>
+      <ol>
+        <li>Open <a href="icons/create_icons.html">icons/create_icons.html</a> in your browser</li>
+        <li>Right-click on each canvas and save as the appropriate filename in the icons folder</li>
+        <li>Make sure you have icon16.png, icon48.png, and icon128.png</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <h3>Step 3: Test on YouTube</h3>
+      <p>Click the link below to visit a YouTube video and test your extension:</p>
+    </div>
+  </div>
+  
+  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="youtube-link" target="_blank">
+    Test on YouTube ▶
+  </a>
+  
+  <h2>Expected Behavior</h2>
+  <ul>
+    <li>After the video loads, the transcript should automatically appear below the description</li>
+    <li>Clicking on timestamps should jump to that point in the video</li>
+    <li>Clicking the "Copy" button should copy the transcript text without timestamps</li>
+    <li>The extension should work in both light and dark modes</li>
+  </ul>
+  
+  <h2>Troubleshooting</h2>
+  <ul>
+    <li>If the transcript doesn't appear, check if the video has a transcript available</li>
+    <li>Try refreshing the page if the extension doesn't load properly</li>
+    <li>Check the browser console for any error messages</li>
+    <li>Make sure your extension is properly loaded in <code>chrome://extensions/</code></li>
+  </ul>
+</body>
+</html>

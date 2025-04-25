@@ -1,0 +1,111 @@
+.show-transcript-container {
+  margin: 20px 0;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  font-family: Roboto, Arial, sans-serif;
+  color: #0f0f0f;
+  max-height: 400px;
+}
+
+.transcript-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.transcript-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.copy-transcript-button {
+  background-color: #065fd4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.copy-transcript-button:hover {
+  background-color: #0356c3;
+}
+
+.transcript-content {
+  overflow-y: auto;
+  max-height: 350px;
+  padding-right: 10px;
+}
+
+.transcript-segment {
+  display: flex;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.transcript-time {
+  flex: 0 0 60px;
+  color: #606060;
+  font-size: 13px;
+  cursor: pointer;
+  padding-right: 8px;
+}
+
+.transcript-time:hover {
+  color: #065fd4;
+  text-decoration: underline;
+}
+
+.transcript-text {
+  flex: 1;
+  font-size: 14px;
+}
+
+/* Custom scrollbar for the transcript */
+.transcript-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.transcript-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.transcript-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.transcript-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode support */
+[dark] .show-transcript-container {
+  background-color: #212121;
+  border-color: #383838;
+  color: #fff;
+}
+
+[dark] .transcript-time {
+  color: #aaa;
+}
+
+[dark] .transcript-content::-webkit-scrollbar-track {
+  background: #333;
+}
+
+[dark] .transcript-content::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
+[dark] .transcript-content::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
