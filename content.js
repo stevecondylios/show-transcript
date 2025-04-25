@@ -2,15 +2,49 @@
 document.addEventListener('yt-navigate-finish', function() {
   // Give YouTube a moment to settle
   setTimeout(showTranscript, 2000);
+  
+  // Also set up a mutation observer to watch for sidebar transcript appearances
+  setupTranscriptPanelObserver();
 });
 
 // Initial page load
 if (document.readyState === 'complete') {
   setTimeout(showTranscript, 2000);
+  
+  // Also set up a mutation observer to watch for sidebar transcript appearances
+  setupTranscriptPanelObserver();
 } else {
   window.addEventListener('load', function() {
     setTimeout(showTranscript, 2000);
+    
+    // Also set up a mutation observer to watch for sidebar transcript appearances
+    setupTranscriptPanelObserver();
   });
+}
+
+// Setup a mutation observer to detect when the transcript panel appears in the sidebar
+function setupTranscriptPanelObserver() {
+  // Check if observer is already set up
+  if (window.transcriptPanelObserver) return;
+  
+  // Create a new observer
+  const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      if (mutation.addedNodes && mutation.addedNodes.length) {
+        // Check if the transcript panel has been added
+        const panel = document.querySelector('ytd-transcript-search-panel-renderer');
+        if (panel) {
+          addCopyButtonToSidePanel();
+        }
+      }
+    }
+  });
+  
+  // Start observing the body for changes
+  observer.observe(document.body, { childList: true, subtree: true });
+  
+  // Store the observer
+  window.transcriptPanelObserver = observer;
 }
 
 function showTranscript() {
@@ -180,15 +214,26 @@ function captureTranscript() {
   // Add all segments to our container
   transcriptContent.appendChild(fragment);
   
-  // Close YouTube's transcript panel
-  const closeButton = ytTranscriptPanel.querySelector('ytd-button-renderer[aria-label="Close"]');
-  if (closeButton) {
-    closeButton.querySelector('button').click();
-  }
+  // Also add copy button to the sidebar transcript panel (top right)
+  setTimeout(addCopyButtonToSidePanel, 500);
+  
+  // Don't close YouTube's transcript panel anymore, let it stay open
+  // This allows both our transcript and YouTube's to be available
 }
 
-function copyTranscriptToClipboard() {
-  const segments = document.querySelectorAll('.transcript-segment .transcript-text');
+function copyTranscriptToClipboard(e) {
+  // Check if this was triggered from the side panel
+  const isFromSidePanel = e && e.target && e.target.classList.contains('side-panel-copy-button');
+  
+  let segments;
+  if (isFromSidePanel) {
+    // Get segments from the side panel
+    segments = Array.from(document.querySelectorAll('ytd-transcript-segment-renderer .segment-text'));
+  } else {
+    // Get segments from our custom transcript
+    segments = document.querySelectorAll('.transcript-segment .transcript-text');
+  }
+  
   if (!segments.length) return;
   
   // Combine all transcript text without timestamps
@@ -196,7 +241,11 @@ function copyTranscriptToClipboard() {
   
   // Copy to clipboard
   navigator.clipboard.writeText(fullText).then(() => {
-    const copyButton = document.querySelector('.copy-transcript-button');
+    // Get the button that was clicked
+    const copyButton = isFromSidePanel 
+      ? e.target
+      : document.querySelector('.copy-transcript-button');
+      
     if (copyButton) {
       const originalText = copyButton.textContent;
       copyButton.textContent = 'Copied!';
@@ -209,4 +258,43 @@ function copyTranscriptToClipboard() {
   }).catch(err => {
     console.error('Failed to copy transcript: ', err);
   });
+}
+
+function addCopyButtonToSidePanel() {
+  // Check if we already added a button
+  if (document.querySelector('.side-panel-copy-button')) return;
+  
+  // Find the transcript panel in the side panel (not our custom one)
+  const transcriptPanel = document.querySelector('ytd-transcript-search-panel-renderer');
+  if (!transcriptPanel) return;
+  
+  // Find the header of the panel
+  const header = transcriptPanel.querySelector('#header');
+  if (!header) return;
+  
+  // Create the copy button
+  const copyButton = document.createElement('button');
+  copyButton.textContent = 'Copy All';
+  copyButton.className = 'side-panel-copy-button';
+  copyButton.addEventListener('click', copyTranscriptToClipboard);
+  
+  // Style the button
+  copyButton.style.backgroundColor = '#065fd4';
+  copyButton.style.color = 'white';
+  copyButton.style.border = 'none';
+  copyButton.style.padding = '6px 12px';
+  copyButton.style.borderRadius = '18px';
+  copyButton.style.fontSize = '13px';
+  copyButton.style.cursor = 'pointer';
+  copyButton.style.fontWeight = '500';
+  copyButton.style.marginLeft = '8px';
+  
+  // Add hover effect
+  copyButton.onmouseover = function() { this.style.backgroundColor = '#0356c3'; };
+  copyButton.onmouseout = function() { this.style.backgroundColor = '#065fd4'; };
+  
+  // Add to the header
+  header.appendChild(copyButton);
+  
+  console.log('Added copy button to side panel transcript');
 }
