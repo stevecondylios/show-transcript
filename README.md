@@ -2,6 +2,11 @@
 
 A Chrome extension that automatically displays transcripts on YouTube videos and allows copying without timestamps.
 
+## Demo
+
+<img src="images/show-transcript.gif">
+
+
 ## Features
 
 - **Auto-Display Transcript**: Automatically shows the transcript for YouTube videos without needing to click the transcript button
